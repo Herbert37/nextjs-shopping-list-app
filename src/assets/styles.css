@@ -6,7 +6,7 @@
   bottom: 0;
   display: flex;
   flex-direction: row;
-  justify-content: left;
+  justify-content: center;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.6);
 }
