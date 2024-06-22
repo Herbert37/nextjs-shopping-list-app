@@ -20,8 +20,7 @@ export default function Home() {
   };
 
   const updateProduct = (index, updatedProduct) => {
-    const updatedProducts = [...products];
-    updatedProducts[index] = { ...updatedProducts[index], ...updatedProduct };
+    const updatedProducts = products.map((product, i) => i === index ? updatedProduct : product);
     setProducts(updatedProducts);
     localStorage.setItem('products', JSON.stringify(updatedProducts));
   };
@@ -45,7 +44,7 @@ export default function Home() {
       <Menu />
       <ProductForm
         backgroundImage={
-          'https://d296xu67oj0g2g.cloudfront.net/lm_cms/images/CMS/DEALS/0923BOSI/RLB_BOSIMILLASADICIONALES.png'
+          'https://d296xu67oj0g2g.cloudfront.net/lm_cms/images/CMS/OVERVIEW%20BANNERS/0624/AA_HB.png'
         }
         title={'Shopping List'}
         addProducts={addProducts}

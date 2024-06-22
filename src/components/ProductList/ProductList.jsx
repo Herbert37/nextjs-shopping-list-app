@@ -4,22 +4,43 @@ import { TextField, IconButton, Box, Typography, Container, Grid } from '@mui/ma
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductList = ({ products, updateProduct, deleteProduct }) => {
-  const { control, setValue, handleSubmit } = useForm({
-    defaultValues: { products }
-  });
+  const { control, setValue } = useForm();
 
   useEffect(() => {
-    products && products.forEach((product, index) => {
+    products.forEach((product, index) => {
       setValue(`products[${index}].name`, product.name);
       setValue(`products[${index}].price`, product.price);
     });
   }, [products, setValue]);
 
+  const handleNameChange = (index, value) => {
+    const updatedProduct = { ...products[index], name: value };
+    updateProduct(index, updatedProduct);
+  };
+
+  const handlePriceChange = (index, value) => {
+    if (!isNaN(parseFloat(value)) || value === '') {
+      const updatedProduct = { ...products[index], price: value };
+      updateProduct(index, updatedProduct);
+    }
+  };
+
+  const handlePriceBlur = (index, value) => {
+    let formattedValue = parseFloat(value);
+    if (isNaN(formattedValue) || formattedValue === 0) {
+      formattedValue = 0.00;
+    }
+    formattedValue = formattedValue.toFixed(2);
+    setValue(`products[${index}].price`, formattedValue);
+    const updatedProduct = { ...products[index], price: formattedValue };
+    updateProduct(index, updatedProduct);
+  };
+
   return (
     <Container maxWidth='md' sx={{ marginTop: '2rem' }}>
       <Grid container>
-        {products && products.map((product, index) => (
-          <Box key={product.id} component="form" sx={{ display: 'flex', alignItems: 'center', mb: 2 }} onSubmit={handleSubmit((data) => updateProduct(index, data.products[index]))}>
+        {products.map((product, index) => (
+          <Box key={product.id} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <Controller
               name={`products[${index}].name`}
               control={control}
@@ -30,6 +51,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   variant='filled'
                   color='secondary'
                   sx={{ mr: 2 }}
+                  onChange={(e) => handleNameChange(index, e.target.value)}
                   onBlur={(e) => {
                     const value = e.target.value.trim();
                     if (value === '') {
@@ -49,13 +71,9 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   variant='filled'
                   color='secondary'
                   sx={{ mr: 2 }}
+                  onChange={(e) => handlePriceChange(index, e.target.value)}
                   onFocus={(e) => e.target.value === "0.00" && setValue(`products[${index}].price`, "")}
-                  onBlur={(e) => {
-                    const value = e.target.value.trim();
-                    if (value === '' || isNaN(parseFloat(value))) {
-                      setValue(`products[${index}].price`, "0.00");
-                    }
-                  }}
+                  onBlur={(e) => handlePriceBlur(index, e.target.value)}
                 />
               )}
             />
@@ -65,7 +83,9 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
           </Box>
         ))}
         <Grid item xs={10} md={11}>
-          {products && <Typography variant="h6">Total: ${products.reduce((sum, product) => sum + parseFloat(product.price), 0).toFixed(2)}</Typography>}
+          <Typography variant="h6">
+            Total: ${products.reduce((sum, product) => sum + parseFloat(product.price), 0).toFixed(2)}
+          </Typography>
         </Grid>
       </Grid>
     </Container>

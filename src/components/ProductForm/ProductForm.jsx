@@ -11,7 +11,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
       const products = data.products.trim().split('\n').map((name, index) => ({
         id: Date.now() + index,
         name,
-        price: 0
+        price: '0.00'
       }));
       addProducts(products);
       reset();
