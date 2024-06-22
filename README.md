@@ -5,7 +5,7 @@ Application to track your shopping list. Developed with Next.js 14, LocalStorage
 
 ## Demo
 
-[Demo de la APP](https://nextjs-search-filter-app.vercel.app/)
+[Demo de la APP](https://h37-shopping-list.vercel.app/)
 
 ## Tecnologías utilizadas | Technologies used
 
