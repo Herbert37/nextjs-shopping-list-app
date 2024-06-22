@@ -35,7 +35,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
   };
 
   const handlePriceChange = (index, value) => {
-    if (!isNaN(parseFloat(value)) || value === '') {
+    if (/^\d*\.?\d*$/.test(value)) {
       const updatedProduct = { ...products[index], price: value };
       updateProduct(index, updatedProduct);
     }
@@ -53,9 +53,11 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
   };
 
   const handlePriceKeyDown = (e) => {
-    const char = String.fromCharCode(e.keyCode || e.which);
-    const regex = /^[0-9\b.]*$/;
-    if (!regex.test(char) && ![8, 46, 37, 39].includes(e.keyCode)) { // Allow backspace, delete, left arrow, right arrow
+    if (e.key === '.' && e.target.value.includes('.')) {
+      e.preventDefault();
+    }
+    const regex = /^[0-9.]$/;
+    if (!regex.test(e.key) && ![8, 46, 37, 39].includes(e.keyCode)) {
       e.preventDefault();
     }
   };
@@ -100,7 +102,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   render={({ field }) => (
                     <FilledInput
                       {...field}
-                      type="number"
+                      type="text"
                       color='secondary'
                       id={`filled-adornment-price-${index}`}
                       onChange={(e) => handlePriceChange(index, e.target.value)}
