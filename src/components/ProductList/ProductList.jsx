@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, IconButton, Container, Grid, FormControl, InputLabel, FilledInput, InputAdornment } from '@mui/material';
+import { IconButton, Container, Grid, FormControl, InputLabel, FilledInput, InputAdornment } from '@mui/material';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import PriceIcon from '@mui/icons-material/Paid';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const ProductList = ({ products, updateProduct, deleteProduct }) => {
@@ -18,10 +20,10 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
     calculateTotal();
   }, [products]);
 
-	const calculateTotal = () => {
-		const sum = products.reduce((acc, product) => acc + parseFloat(product.price || 0), 0);
-		setTotal(sum);
-	};
+  const calculateTotal = () => {
+    const sum = products.reduce((acc, product) => acc + parseFloat(product.price || 0), 0);
+    setTotal(sum);
+  };
 
   const handleNameChange = (index, value) => {
     const capitalizeFirstLetter = (string) => {
@@ -65,26 +67,28 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
           <Grid item xs={12} key={product.id} sx={{ display: 'flex', alignItems: 'center' }}>
             {/* Name */}
             <Grid item xs={5} md={5.5}>
-              <Controller
-                name={`products[${index}].name`}
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    label='Name'
-                    variant='filled'
-                    color='secondary'
-                    onChange={(e) => handleNameChange(index, e.target.value)}
-                    onBlur={(e) => {
-                      const value = e.target.value.trim();
-                      if (value === '') {
-                        setValue(`products[${index}].name`, product.name);
-                      }
-                    }}
-                  />
-                )}
-              />
+              <FormControl fullWidth variant="filled">
+                <InputLabel color='secondary' htmlFor={`filled-adornment-name-${index}`}>Name</InputLabel>
+                <Controller
+                  name={`products[${index}].name`}
+                  control={control}
+                  render={({ field }) => (
+                    <FilledInput
+                      {...field}
+                      color='secondary'
+                      id={`filled-adornment-name-${index}`}
+                      onChange={(e) => handleNameChange(index, e.target.value)}
+                      onBlur={(e) => {
+                        const value = e.target.value.trim();
+                        if (value === '') {
+                          setValue(`products[${index}].name`, product.name);
+                        }
+                      }}
+                      startAdornment={<InputAdornment position="start"><LocalMallIcon sx={{ width: '1rem' }} /></InputAdornment>}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             {/* Price */}
             <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '2rem' }}>
@@ -96,6 +100,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   render={({ field }) => (
                     <FilledInput
                       {...field}
+                      type="number"
                       color='secondary'
                       id={`filled-adornment-price-${index}`}
                       onChange={(e) => handlePriceChange(index, e.target.value)}
@@ -103,7 +108,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                       onBlur={(e) => handlePriceBlur(index, e.target.value)}
                       onKeyDown={handlePriceKeyDown}
                       inputMode="decimal"
-                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      startAdornment={<InputAdornment position="start"><PriceIcon sx={{ width: '1rem' }} /></InputAdornment>}
                     />
                   )}
                 />
@@ -121,21 +126,21 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
             </IconButton>
           </Grid>
         ))}
-				<Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
-					<Grid item xs={5} md={5.5} />
-					<Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '2rem' }}>
-						<FormControl fullWidth variant="filled">
-							<InputLabel sx={{ color: '#19857b' }} htmlFor="filled-adornment-total">Total</InputLabel>
-							<FilledInput
-								disabled
-								color='secondary'
-								id="filled-adornment-total"
-								startAdornment={<InputAdornment position="start">${total.toFixed(2)}</InputAdornment>}
-								value=''
-							/>
-						</FormControl>
-					</Grid>
-				</Grid>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Grid item xs={5} md={5.5} />
+          <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '2rem' }}>
+            <FormControl fullWidth variant="filled">
+              <InputLabel sx={{ color: '#19857b' }} htmlFor="filled-adornment-total">Total</InputLabel>
+              <FilledInput
+                disabled
+                color='secondary'
+                id="filled-adornment-total"
+                startAdornment={<InputAdornment position="start"><PriceIcon sx={{ mr: '8px', width: '1rem', color: '#19857b' }} />{total.toFixed(2)}</InputAdornment>}
+                value=''
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
       </Grid>
     </Container>
   );
