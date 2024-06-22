@@ -10,7 +10,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
     if(data?.products){
       const products = data.products.trim().split('\n').map((name, index) => ({
         id: Date.now() + index,
-        name,
+        name: name.charAt(0).toUpperCase() + name.slice(1),
         price: '0.00'
       }));
       addProducts(products);
