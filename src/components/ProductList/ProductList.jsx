@@ -102,14 +102,14 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   render={({ field }) => (
                     <FilledInput
                       {...field}
-                      type="tel"
+                      type="text"
                       color='secondary'
                       id={`filled-adornment-price-${index}`}
                       onChange={(e) => handlePriceChange(index, e.target.value)}
                       onFocus={(e) => e.target.value === "0.00" && setValue(`products[${index}].price`, "")}
                       onBlur={(e) => handlePriceBlur(index, e.target.value)}
                       onKeyDown={handlePriceKeyDown}
-                      inputMode="decimal"
+                      inputMode="numeric"
                       pattern="[0-9]*[.,]?[0-9]*"
                       startAdornment={<InputAdornment position="start"><PriceIcon sx={{ width: '1rem' }} /></InputAdornment>}
                     />
