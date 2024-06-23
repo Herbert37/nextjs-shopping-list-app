@@ -109,8 +109,8 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                       onFocus={(e) => e.target.value === "0.00" && setValue(`products[${index}].price`, "")}
                       onBlur={(e) => handlePriceBlur(index, e.target.value)}
                       onKeyDown={handlePriceKeyDown}
-                      inputMode="numeric"
-                      pattern="[0-9]*[.,]?[0-9]*"
+                      inputMode="decimal"
+											pattern="[0-9]*[.,]?[0-9]*"
                       startAdornment={<InputAdornment position="start"><PriceIcon sx={{ width: '1rem' }} /></InputAdornment>}
                     />
                   )}
