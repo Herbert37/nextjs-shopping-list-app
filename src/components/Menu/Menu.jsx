@@ -25,7 +25,7 @@ export default function Menu() {
     <AppBar sx={appBarStyle} position="sticky">
       <Toolbar>
         <Container maxWidth="md" sx={{ padding: '0rem !important' }}>
-          <Button disabled color="inherit">Developed by: </Button>
+          <Button disabled color="inherit">Developer info: </Button>
           <IconButton
             sx={{
               ml: '0.5rem',

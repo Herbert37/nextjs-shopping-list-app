@@ -52,7 +52,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
               </Typography>
             </Grid>
             {/* Form */}
-            <Grid sx={{paddingRight: '1rem'}} item xs={10} md={11}>
+            <Grid sx={{paddingRight: '1rem'}} item xs={10.5} md={11}>
               <br></br>
               <TextField
                 sx={{
@@ -70,7 +70,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
                 {...register('products')}
               />
             </Grid>
-            <Grid sx={{marginTop: {xs:'0.5rem', md: '0'}}} item xs={2} md={1}>
+            <Grid sx={{marginTop: {xs:'0.5rem', md: '0'}}} item xs={1} md={1}>
               <br></br>
               <IconButton
                 sx={{

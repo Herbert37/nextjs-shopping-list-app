@@ -77,7 +77,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
         {products.map((product, index) => (
           <Grid item xs={12} key={product.id} sx={{ display: 'flex', alignItems: 'center' }}>
             {/* Product */}
-            <Grid item xs={5} md={5.5}>
+            <Grid item xs={5.5} md={5.5}>
               <FormControl fullWidth variant="filled">
                 <InputLabel color='secondary' htmlFor={`filled-adornment-name-${index}`}>Product</InputLabel>
                 <Controller
@@ -126,21 +126,23 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                 />
               </FormControl>
             </Grid>
-            <IconButton
-              sx={{
-                backgroundColor: 'rgba(0,0,0,0.3)'
-              }}
-              color="secondary"
-              size='large'
-              onClick={() => deleteProduct(index)}
-            >
-              <ClearIcon />
-            </IconButton>
+            <Grid item xs={1}>
+              <IconButton
+                sx={{
+                  backgroundColor: 'rgba(0,0,0,0.3)'
+                }}
+                color="secondary"
+                size='large'
+                onClick={() => deleteProduct(index)}
+              >
+                <ClearIcon />
+              </IconButton>
+            </Grid>
           </Grid>
         ))}
         {/* Total */}
         <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
-          <Grid item xs={5} md={5.5} />
+          <Grid item xs={5.5} md={5.5} />
           <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '1rem', paddingBottom: '2rem' }}>
             <FormControl fullWidth variant="filled">
               <InputLabel sx={{ color: '#19857b' }} htmlFor="filled-adornment-total">Total</InputLabel>
