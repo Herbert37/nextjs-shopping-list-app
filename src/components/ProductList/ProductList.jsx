@@ -35,28 +35,37 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
   };
 
   const handlePriceChange = (index, value) => {
-    if (/^\d*\.?\d*$/.test(value)) {
-      const updatedProduct = { ...products[index], price: value };
-      updateProduct(index, updatedProduct);
+    // Remove any character that is not a digit
+    value = value.replace(/[^\d]/g, '');    
+    // If the value is less than 100, format with leading zeros
+    while (value.length < 3) {
+      value = '0' + value;
     }
+    // Insert decimal point
+    const integerPart = value.slice(0, -2);
+    const decimalPart = value.slice(-2);
+    const formattedValue = `${parseInt(integerPart, 10)}.${decimalPart}`;
+
+    const updatedProduct = { ...products[index], price: formattedValue };
+    updateProduct(index, updatedProduct);
   };
 
   const handlePriceBlur = (index, value) => {
     let formattedValue = parseFloat(value);
     if (isNaN(formattedValue) || formattedValue === 0) {
-      formattedValue = 0.00;
+      formattedValue = '0.00';
+    } else {
+      formattedValue = formattedValue.toFixed(2).toString();
     }
-    formattedValue = formattedValue.toFixed(2);
+
     setValue(`products[${index}].price`, formattedValue);
     const updatedProduct = { ...products[index], price: formattedValue };
     updateProduct(index, updatedProduct);
   };
 
   const handlePriceKeyDown = (e) => {
-    if (e.key === '.' && e.target.value.includes('.')) {
-      e.preventDefault();
-    }
-    const regex = /^[0-9.]$/;
+    // Allow only numbers
+    const regex = /^[0-9]$/;
     if (!regex.test(e.key) && ![8, 46, 37, 39].includes(e.keyCode)) {
       e.preventDefault();
     }
@@ -67,10 +76,10 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
       <Grid container spacing={2}>
         {products.map((product, index) => (
           <Grid item xs={12} key={product.id} sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Name */}
+            {/* Product */}
             <Grid item xs={5} md={5.5}>
               <FormControl fullWidth variant="filled">
-                <InputLabel color='secondary' htmlFor={`filled-adornment-name-${index}`}>Name</InputLabel>
+                <InputLabel color='secondary' htmlFor={`filled-adornment-name-${index}`}>Product</InputLabel>
                 <Controller
                   name={`products[${index}].name`}
                   control={control}
@@ -93,7 +102,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
               </FormControl>
             </Grid>
             {/* Price */}
-            <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '2rem' }}>
+            <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
               <FormControl fullWidth variant="filled">
                 <InputLabel color='secondary' htmlFor={`filled-adornment-price-${index}`}>Price</InputLabel>
                 <Controller
@@ -102,7 +111,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                   render={({ field }) => (
                     <FilledInput
                       {...field}
-                      type="text"
+                      type="tel"
                       color='secondary'
                       id={`filled-adornment-price-${index}`}
                       onChange={(e) => handlePriceChange(index, e.target.value)}
@@ -110,7 +119,7 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
                       onBlur={(e) => handlePriceBlur(index, e.target.value)}
                       onKeyDown={handlePriceKeyDown}
                       inputMode="numeric"
-                      pattern="[0-9]*[.,]?[0-9]*"
+                      pattern="[0-9]*"
                       startAdornment={<InputAdornment position="start"><PriceIcon sx={{ width: '1rem' }} /></InputAdornment>}
                     />
                   )}
@@ -129,9 +138,10 @@ const ProductList = ({ products, updateProduct, deleteProduct }) => {
             </IconButton>
           </Grid>
         ))}
+        {/* Total */}
         <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
           <Grid item xs={5} md={5.5} />
-          <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '2rem' }}>
+          <Grid item xs={5} md={5.5} sx={{ paddingLeft: '1rem', paddingRight: '1rem', paddingBottom: '2rem' }}>
             <FormControl fullWidth variant="filled">
               <InputLabel sx={{ color: '#19857b' }} htmlFor="filled-adornment-total">Total</InputLabel>
               <FilledInput

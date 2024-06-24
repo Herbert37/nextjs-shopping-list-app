@@ -52,7 +52,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
               </Typography>
             </Grid>
             {/* Form */}
-            <Grid sx={{paddingRight: '2rem'}} item xs={10} md={11}>
+            <Grid sx={{paddingRight: '1rem'}} item xs={10} md={11}>
               <br></br>
               <TextField
                 sx={{
@@ -60,7 +60,7 @@ export default function ProductForm({ backgroundImage, title, addProducts, handl
                 }}
                 fullWidth
                 id="filled-multiline-static"
-                label="Type products"
+                label="Type your shopping list"
                 multiline
                 rows={4}
                 size='small'

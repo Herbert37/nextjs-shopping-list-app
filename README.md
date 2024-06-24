@@ -5,11 +5,11 @@ Application to track your shopping list. Developed with Next.js 14, LocalStorage
 
 ## Demo
 
-[Demo de la APP](https://h37-shopping-list.vercel.app/)
+[https://h37-shopping-list.vercel.app/](https://h37-shopping-list.vercel.app/)
 
 ## Tecnologías utilizadas | Technologies used
 
 - [Next.js](https://nextjs.org/)
 - [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- [Redux Toolkit](https://react-hook-form.com/)
+- [React Hook Form](https://react-hook-form.com/)
 - [Material UI](https://mui.com/)
